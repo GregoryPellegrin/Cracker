@@ -121,7 +121,7 @@ public final class Cracker
 	
 	public static void main (String [] args)
 	{
-		Cracker crack = new Cracker ("./src/main/resources/Cracker/fichier.zip", Cracker.ZIP, Cracker.TEXT_LOWER, 5, 6, 100000);
+		Cracker crack = new Cracker ("./src/main/resources/Cracker/test.zip", Cracker.ZIP, Cracker.TEXT_LOWER, 3, 4, 1000);
 		
 		crack.start();
 	}

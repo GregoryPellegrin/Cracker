@@ -2,6 +2,12 @@ package Cracker;
 
 import java.io.IOException;
 
+/*
+ * Gregory Pellegrin
+ * pellegrin.gregory.work@gmail.com
+ * 
+ * Trouve le mot de passe d'une archive .zip ou .rar
+ */
 public final class Cracker
 {
 	private char dictionaryAll [] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
@@ -114,7 +120,7 @@ public final class Cracker
 	
 	public static void main (String [] args)
 	{
-		Cracker crack = new Cracker ("./src/main/resources/Cracker/fichier.zip", Cracker.ZIP, Cracker.TEXT_LOWER, 3, 5, 1000);
+		Cracker crack = new Cracker ("./src/main/resources/Cracker/fichier.zip", Cracker.ZIP, Cracker.TEXT_LOWER, 5, 6, 100000);
 		
 		crack.start();
 	}

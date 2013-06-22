@@ -69,7 +69,7 @@ public final class Cracker
 		this.displayTime = displayTime;
 		this.oldTime = 0;
 		this.totalFrame = 0;
-		this.frame = 0;
+		//this.frame = 0;
 	}
 	
 	public void start ()

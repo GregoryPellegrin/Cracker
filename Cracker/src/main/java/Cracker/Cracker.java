@@ -26,6 +26,9 @@ public final class Cracker
 	private int totalFrame;
 	private int frame;
 	
+	public static final String ZIP = "unzip -P ";
+	public static final String RAR = "unrar x -p";
+	
 	public static final int ALL = 0;
 	public static final int NUMBER = 1;
 	public static final int TEXT_ALL = 2;
@@ -45,9 +48,9 @@ public final class Cracker
 		this.pathFile = " " + pathFile;
 		
 		if (pathFile.endsWith(".zip"))
-			this.command = "unzip -P ";
+			this.command = Cracker.ZIP;
 		else if (pathFile.endsWith(".rar"))
-			this.command = "unrar x -p";
+			this.command = Cracker.RAR;
 		
 		if (typeCrack == Cracker.ALL)
 			this.dictionary = this.dictionaryAll;
@@ -105,8 +108,8 @@ public final class Cracker
 		{
 			this.totalFrame = this.totalFrame + this.frame;
 
-			/* abcdefg [666 password/sec] [6666 password/total] */
-			System.out.println(password + " [" + (this.frame / (this.displayTime / 1000)) + " password/sec] [" + this.totalFrame + " password/total]");
+			/* abcdefg [unzip -p] [666 password/sec] [6666 password/total] */
+			System.out.println(password + " [" + this.command + "] " + "[" + (this.frame / (this.displayTime / 1000)) + " password/sec] [" + this.totalFrame + " password/total]");
 			
 			this.oldTime = System.currentTimeMillis();
 			this.frame = 0;
@@ -129,7 +132,7 @@ public final class Cracker
 			System.out.println("4 : Taille Maximum du mot de passe");
 			System.out.println("5 : Temps entre les affichages des statistiques");
 			
-			System.out.println("java -jar cracker \"fichier.zip|rar\" 3 4 6 100000");
+			System.out.println("java -jar cracker fichier.zip|rar 3 4 6 100000");
 		}
 	}
 }

@@ -115,7 +115,6 @@ public final class Cracker
 	
 	public static void main (String [] args)
 	{
-		System.out.println(args.length);
 		if (args.length == 5)
 		{
 			Cracker crack = new Cracker (args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));

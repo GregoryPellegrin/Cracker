@@ -75,7 +75,7 @@ public final class Cracker
 		this.frame = 0;
 		
 		this.totalPassword = 0;
-		for (int i = this.minLengthPassword; i < this.maxLengthPassword; i++)
+		for (int i = this.minLengthPassword; i <= this.maxLengthPassword; i++)
 			this.totalPassword = this.totalPassword + Math.pow(this.dictionary.length, i);
 	}
 	
@@ -126,12 +126,7 @@ public final class Cracker
 			double secRestant = (this.totalPassword - this.totalPasswordDone) / passwordSec;
 			
 			/* abcdefg [unzip -p] [666 sec] [6666 total] [66666 restant] [666666 sec restant]*/
-			System.out.println(password + " " +
-								"[" + this.command + "] " +
-								"[" + passwordSec + " sec] " +
-								"[" + this.totalPasswordDone + " total] " +
-								"[" + passwordRestant + " restant] " +
-								"[" + secRestant + " sec restant]");
+			System.out.printf("[%s] [%s] [%.0f sec] [%.0f total] [%.0f restant] [%.0f sec restant]\n", password, this.command, passwordSec, this.totalPasswordDone, passwordRestant, secRestant);
 			
 			this.oldTime = System.currentTimeMillis();
 			this.frame = 0;

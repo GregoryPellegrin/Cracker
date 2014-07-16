@@ -30,7 +30,7 @@ public final class Cracker
 	private final int displayTime;
 	
 	public static final String ZIP = "unzip -P ";
-	public static final String ZIP7 = "7z x -aop";
+	public static final String ZIP7 = "7z x -yp";
 	public static final String RAR = "unrar x -p";
 	
 	public static final int ALL = 0;

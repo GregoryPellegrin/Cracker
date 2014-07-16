@@ -8,6 +8,8 @@
 package Cracker;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class Cracker
 {
@@ -28,7 +30,7 @@ public final class Cracker
 	private final int displayTime;
 	
 	public static final String ZIP = "unzip -P ";
-	public static final String ZIP7 = "7z x -p";
+	public static final String ZIP7 = "7z x -aop";
 	public static final String RAR = "unrar x -p";
 	
 	public static final int ALL = 0;
@@ -81,12 +83,7 @@ public final class Cracker
 	
 	public void start ()
 	{
-		this.start("");
-	}
-	
-	public void start (String password)
-	{
-		this.update(password, this.maxLengthPassword);
+		this.update("", this.maxLengthPassword);
 	}
 	
 	private void update (String password, int maxLengthPassword)
@@ -106,10 +103,18 @@ public final class Cracker
 	{
 		try
 		{
-			Runtime.getRuntime().exec(this.command + password + this.pathFile);
+			Process process = Runtime.getRuntime().exec(this.command + password + this.pathFile);
+			
+			if (process.waitFor() == 0)
+				System.exit(0);
+		}
+		catch (InterruptedException e)
+		{
+			System.out.println(e);
 		}
 		catch (IOException e)
 		{
+			System.out.println(e);
 		}
 	}
 	
@@ -139,10 +144,7 @@ public final class Cracker
 		{
 			Cracker crack = new Cracker (args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
 			
-			if (args.length == 6)
-				crack.start(args[5]);
-			else
-				crack.start();
+			crack.start();
 		}
 		else
 		{
@@ -151,9 +153,8 @@ public final class Cracker
 			System.out.println("3 Taille minimum du mot de passe");
 			System.out.println("4 Taille Maximum du mot de passe");
 			System.out.println("5 Temps entre les affichages des statistiques");
-			System.out.println("6 Mot de passe par ou commencer");
 			
-			System.out.println("java -jar cracker fichier.zip|rar 3 4 6 100000 [abdge]");
+			System.out.println("java -jar cracker fichier.zip|rar 3 4 6 100000");
 		}
 	}
 }

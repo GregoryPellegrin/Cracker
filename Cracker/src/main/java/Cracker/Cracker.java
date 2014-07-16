@@ -20,6 +20,7 @@ public final class Cracker
 	private final char dictionaryTextUpper [] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 	private char dictionary [];
 	private final String pathFile;
+	private final String nameFile;
 	private final String command;
 	private double oldTime;
 	private double totalPassword;
@@ -41,15 +42,17 @@ public final class Cracker
 	
 	/*
 	 * pathFile : Si chemin relatif, partir de Cracker/ ("./src/main/resources/CrackerPackage/fichier.zip")
+	 * nameFile : Nom d'un fichier contenu dans pathFile (Leger de preference)
 	 * typeCrack : Caracteres du password (Chiffres + Minuscules + Majuscules) (Chiffres) (Minuscules + Majuscules) (Minuscules) (Majuscules)
 	 * minLengthPassword : Taille minimale du password (azerty = 1,2,3,4,5,6 minLengthPassword)
 	 * maxLengthPassword : Taille maximale du password (azerty = 6 maxLengthPassword)
 	 * (Calcul du password de minLengthPassword a maxLengthPassword)
 	 * displayTime : Temps d'apparition des statistiques (Millisecondes)
 	 */
-	public Cracker (String pathFile, int typeCrack, int minLengthPassword, int maxLengthPassword, int displayTime)
+	public Cracker (String pathFile, String nameFile, int typeCrack, int minLengthPassword, int maxLengthPassword, int displayTime)
 	{
 		this.pathFile = " " + pathFile;
+		this.nameFile = " " + nameFile;
 		
 		if (pathFile.endsWith(".zip"))
 			this.command = Cracker.ZIP7;
@@ -86,6 +89,17 @@ public final class Cracker
 		this.update("", this.maxLengthPassword);
 	}
 	
+	public void start (String characterStart)
+	{
+		int indexStart = 0;
+		
+		for (int i = 0; i < this.dictionary.length; i++)
+			if (characterStart.equals(String.valueOf(this.dictionary[i])))
+				indexStart = i;
+		
+		this.update("", indexStart, this.maxLengthPassword);
+	}
+	
 	private void update (String password, int maxLengthPassword)
 	{
 		if (maxLengthPassword > 0)
@@ -99,14 +113,32 @@ public final class Cracker
 		}
 	}
 	
+	private void update (String password, int indexStart, int maxLengthPassword)
+	{
+		if (maxLengthPassword > 0)
+			for (int i = indexStart; i < this.dictionary.length; i++)
+				this.update(password + this.dictionary[i], maxLengthPassword - 1);
+		
+		if (maxLengthPassword <= this.minLengthPassword)
+		{
+			this.execute(password);
+			this.stat(password);
+		}
+	}
+	
 	private void execute (String password)
 	{
 		try
 		{
-			Process process = Runtime.getRuntime().exec(this.command + password + this.pathFile);
+			Process process = Runtime.getRuntime().exec(this.command + password + this.pathFile + this.nameFile);
 			
 			if (process.waitFor() == 0)
+			{
+				Process extract = Runtime.getRuntime().exec(this.command + password + this.pathFile);
+				
+				System.out.println("Password [" + password + "]");
 				System.exit(0);
+			}
 		}
 		catch (InterruptedException e)
 		{
@@ -140,21 +172,26 @@ public final class Cracker
 	
 	public static void main (String [] args)
 	{
-		if (args.length == 5)
+		if ((args.length == 6) || (args.length == 7))
 		{
-			Cracker crack = new Cracker (args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+			Cracker crack = new Cracker (args[0], args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
 			
-			crack.start();
+			if (args.length == 6)
+				crack.start(args[6]);
+			else
+				crack.start();
 		}
 		else
 		{
-			System.out.println("1 Nom du fichier");
-			System.out.println("2 Choix du dictionnaire (0 Tout, 1 Nombre, 2 Lettres, 3 Minuscules, 4 Majuscules)");
-			System.out.println("3 Taille minimum du mot de passe");
-			System.out.println("4 Taille Maximum du mot de passe");
-			System.out.println("5 Temps entre les affichages des statistiques");
+			System.out.println("1 Nom de l'archive");
+			System.out.println("2 Nom d'un fichier contenu dans l'archive (Leger de preference)");
+			System.out.println("3 Choix du dictionnaire (0 Tout, 1 Nombre, 2 Lettres, 3 Minuscules, 4 Majuscules)");
+			System.out.println("4 Taille minimum du mot de passe");
+			System.out.println("5 Taille maximum du mot de passe");
+			System.out.println("6 Temps entre les affichages des statistiques");
+			System.out.println("7 Caractere par lequel commencer");
 			
-			System.out.println("java -jar cracker fichier.zip|rar 3 4 6 100000");
+			System.out.println("java -jar cracker fichier.zip|rar 3 4 6 100000 [x]");
 		}
 	}
 }

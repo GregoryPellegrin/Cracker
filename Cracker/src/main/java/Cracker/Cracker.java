@@ -28,6 +28,7 @@ public final class Cracker
 	private final int displayTime;
 	
 	public static final String ZIP = "unzip -P ";
+	public static final String ZIP7 = "7z x -p";
 	public static final String RAR = "unrar x -p";
 	
 	public static final int ALL = 0;
@@ -49,11 +50,11 @@ public final class Cracker
 		this.pathFile = " " + pathFile;
 		
 		if (pathFile.endsWith(".zip"))
-			this.command = Cracker.ZIP;
+			this.command = Cracker.ZIP7;
 		else if (pathFile.endsWith(".rar"))
 			this.command = Cracker.RAR;
 		else
-			this.command = "Not a zip or rar";
+			this.command = "Should be zip or rar";
 		
 		if (typeCrack == Cracker.ALL)
 			this.dictionary = this.dictionaryAll;
@@ -73,9 +74,9 @@ public final class Cracker
 		this.totalPasswordDone = 0;
 		this.frame = 0;
 		
-		this.totalPassword = this.dictionary.length;
-		for (int i = 1; i < this.maxLengthPassword; i++)
-			this.totalPassword = this.totalPassword * this.dictionary.length;
+		this.totalPassword = 0;
+		for (int i = this.minLengthPassword; i < this.maxLengthPassword; i++)
+			this.totalPassword = this.totalPassword + Math.pow(this.dictionary.length, i);
 	}
 	
 	public void start ()

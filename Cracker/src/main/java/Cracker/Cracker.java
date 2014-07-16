@@ -139,22 +139,19 @@ public final class Cracker
 		{
 			Cracker crack = new Cracker (args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
 			
-			crack.start();
-		}
-		else if (args.length == 6)
-		{
-			Cracker crack = new Cracker (args[0], Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
-			
-			crack.start(args[5]);
+			if (args.length == 6)
+				crack.start(args[5]);
+			else
+				crack.start();
 		}
 		else
 		{
-			System.out.println("1 : Nom du fichier");
-			System.out.println("2 : Choix du dictionnaire (0 Tout, 1 Nombre, 2 Lettres, 3 Minuscules, 4 Majuscules)");
-			System.out.println("3 : Taille minimum du mot de passe");
-			System.out.println("4 : Taille Maximum du mot de passe");
-			System.out.println("5 : Temps entre les affichages des statistiques");
-			System.out.println("6 : Mot de passe par ou commencer");
+			System.out.println("1 Nom du fichier");
+			System.out.println("2 Choix du dictionnaire (0 Tout, 1 Nombre, 2 Lettres, 3 Minuscules, 4 Majuscules)");
+			System.out.println("3 Taille minimum du mot de passe");
+			System.out.println("4 Taille Maximum du mot de passe");
+			System.out.println("5 Temps entre les affichages des statistiques");
+			System.out.println("6 Mot de passe par ou commencer");
 			
 			System.out.println("java -jar cracker fichier.zip|rar 3 4 6 100000 [abdge]");
 		}

@@ -176,7 +176,7 @@ public final class Cracker
 		{
 			Cracker crack = new Cracker (args[0], args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]), Integer.parseInt(args[5]));
 			
-			if (args.length == 6)
+			if (args.length == 7)
 				crack.start(args[6]);
 			else
 				crack.start();
